@@ -91,6 +91,7 @@ public abstract class Decryptor {
 				seq = ByteBuffer.wrap(partialIV).getInt();
 				
 				//Note that the code below can throw an OSException when replays are detected
+				//JL
 				ctx.checkIncomingSeq(seq);
 
 				nonce = OSSerializer.nonceGeneration(partialIV, ctx.getRecipientId(), ctx.getCommonIV(),

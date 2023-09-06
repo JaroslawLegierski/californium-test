@@ -156,7 +156,7 @@ You will therefore need to add the Eclipse Repository to your `pom.xml` first:
     ...
   </repositories>
 ```
-You can then simply depend on `3.10.0-SNAPSHOT`.
+You can then simply depend on `3.10.0-SNAPSHOT-A`.
 
 # Eclipse
 
