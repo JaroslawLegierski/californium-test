@@ -232,6 +232,9 @@ public class OptionJuggle {
 		return responseWithNewCode(response, ResponseCode.CHANGED);
 	}
 
+	public static Response setFakeCodeResponseUnauthorized(Response response) {
+		return responseWithNewCode(response, ResponseCode.UNAUTHORIZED);
+	}
 	/**
 	 * Sets the realCode for a response
 	 * 

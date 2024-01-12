@@ -117,7 +117,10 @@ public class ContextRederivation {
 		OSCoreCtx newCtx = rederiveWithContextID(ctx, contextID1);
 
 		// In the request include ID1 as a CBOR byte string (bstr)
-		newCtx.setIncludeContextId(encodeToCborBstrBytes(contextID1));
+		//JL
+		//newCtx.setIncludeContextId(encodeToCborBstrBytes(contextID1));
+		newCtx.setIncludeContextId((contextID1));
+
 		newCtx.setContextRederivationPhase(ContextRederivation.PHASE.CLIENT_PHASE_1);
 		db.removeContext(ctx);
 		db.addContext(uri, newCtx);
@@ -156,8 +159,9 @@ public class ContextRederivation {
 
 			// The Context ID in the incoming response is identified as R2
 			// It is first decoded as it is a CBOR byte string
-			byte[] contextR2 = decodeFromCborBstrBytes(contextID);
-
+			//JL
+			//byte[] contextR2 = decodeFromCborBstrBytes(contextID);
+			byte[] contextR2 = contextID;
 			// The Context ID of the original request in this exchange is ID1
 			byte[] contextID1 = ctx.getIdContext();
 
@@ -193,8 +197,9 @@ public class ContextRederivation {
 
 			// The Context ID in the incoming response is identified as R2
 			// It is first decoded as it is a CBOR byte string
-			byte[] contextR2 = decodeFromCborBstrBytes(contextID);
-
+			//JL
+			//byte[] contextR2 = decodeFromCborBstrBytes(contextID);
+			byte[] contextR2 = contextID;
 			// The Context ID of the original request in this exchange is ID1
 			byte[] contextID1 = ctx.getIdContext();
 
@@ -245,7 +250,9 @@ public class ContextRederivation {
 
 			// In the outgoing request from this context, include the Context ID
 			// as a CBOR byte string
-			newCtx.setIncludeContextId(encodeToCborBstrBytes(protectContextID));
+			//JL
+			//newCtx.setIncludeContextId(encodeToCborBstrBytes(protectContextID));
+			newCtx.setIncludeContextId((protectContextID));
 
 			// Indicate that the context re-derivation procedure is ongoing
 			newCtx.setContextRederivationPhase(PHASE.CLIENT_PHASE_3);
@@ -316,7 +323,9 @@ public class ContextRederivation {
 
 			// Generate a new context with the received Context ID, after
 			// decoded from a CBOR byte string
-			byte[] contextIdParsed = decodeFromCborBstrBytes(contextID);
+			//JL
+			//byte[] contextIdParsed = decodeFromCborBstrBytes(contextID);
+			byte[] contextIdParsed =contextID;
 			OSCoreCtx newCtx = rederiveWithContextID(ctx, contextIdParsed);
 
 			// Set the next phase of the re-derivation procedure
@@ -347,7 +356,18 @@ public class ContextRederivation {
 			// string the re-derivation procedure will be aborted.
 			byte[] contextID1 = null;
 			try {
-				contextID1 = decodeFromCborBstrBytes(contextID);
+
+				byte[] cborlength = new byte[] { 0x48};
+				byte[] newcontextID1 = new byte[cborlength.length + contextID.length];
+
+				if (contextID.length<=8) {
+					System.arraycopy(cborlength, 0, newcontextID1, 0, cborlength.length);
+					System.arraycopy(contextID, 0, newcontextID1, cborlength.length, contextID.length);
+
+				}
+				//JL
+				//contextID1 = decodeFromCborBstrBytes(contextID);
+				contextID1=contextID;
 			} catch (CBORException e) {
 				LOGGER.debug(
 						"Client initiated context re-derivation not started as ID Context in request is not a CBOR byte string.");
@@ -449,8 +469,9 @@ public class ContextRederivation {
 			// Outgoing response from this context only uses R2 as
 			// Context ID (not concatenated one used to generate the context).
 			// It will be encoded as a CBOR byte string.
-			newCtx.setIncludeContextId(encodeToCborBstrBytes(contextR2));
-
+			//JL
+			//newCtx.setIncludeContextId(encodeToCborBstrBytes(contextR2));
+			newCtx.setIncludeContextId((contextR2));
 			// Respond with new partial IV
 			newCtx.setResponsesIncludePartialIV(true);
 

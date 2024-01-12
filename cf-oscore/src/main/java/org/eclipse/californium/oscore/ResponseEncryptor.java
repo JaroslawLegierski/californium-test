@@ -19,6 +19,7 @@
  ******************************************************************************/
 package org.eclipse.californium.oscore;
 
+import org.eclipse.californium.core.coap.CoAP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.eclipse.californium.core.coap.BlockOption;
@@ -69,8 +70,12 @@ public class ResponseEncryptor extends Encryptor {
 		}
 
 		int realCode = response.getCode().value;
-		response = OptionJuggle.setFakeCodeResponse(response);
-
+		if (ctx.getContextRederivationPhase()==ContextRederivation.PHASE.SERVER_PHASE_2) {
+			response = OptionJuggle.setFakeCodeResponseUnauthorized(response);
+		}
+		else {
+			response = OptionJuggle.setFakeCodeResponse(response);
+		}
 		OptionSet options = response.getOptions();
 
 		// Save block1 option in the case of outer block-wise to re-add later

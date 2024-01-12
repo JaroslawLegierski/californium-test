@@ -88,6 +88,11 @@ public class ObjectSecurityLayer extends AbstractLayer {
 		return ResponseEncryptor.encrypt(ctxDb, message, ctx, newPartialIV, outerBlockwise, requestSequenceNr);
 	}
 
+	public static Response prepareFirstSend(OSCoreCtxDB ctxDb, Response message, OSCoreCtx ctx, final boolean newPartialIV,
+			boolean outerBlockwise, int requestSequenceNr) throws OSException {
+		return ResponseEncryptor.encrypt(ctxDb, message, ctx, newPartialIV, outerBlockwise, requestSequenceNr);
+	}
+
 	/**
 	 * Decrypt an incoming request using the right OSCore context
 	 *
@@ -245,6 +250,7 @@ public class ObjectSecurityLayer extends AbstractLayer {
 				// Parse the OSCORE option from the corresponding request
 				OscoreOptionDecoder optionDecoder = new OscoreOptionDecoder(exchange.getCryptographicContextID());
 				int requestSequenceNumber = optionDecoder.getSequenceNumber();
+
 
 				Response preparedResponse = prepareSend(ctxDb, response, ctx, addPartialIV, outerBlockwise,
 						requestSequenceNumber);
