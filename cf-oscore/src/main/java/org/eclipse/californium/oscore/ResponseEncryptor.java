@@ -78,7 +78,12 @@ public class ResponseEncryptor extends Encryptor {
 		}
 
 		int realCode = response.getCode().value;
-		response = OptionJuggle.setFakeCodeResponse(response);
+		if (ctx.getContextRederivationPhase()==ContextRederivation.PHASE.SERVER_PHASE_2) {
+			response = OptionJuggle.setFakeCodeResponseUnauthorized(response);
+		}
+		else {
+			response = OptionJuggle.setFakeCodeResponse(response);
+		}
 
 		OptionSet options = response.getOptions();
 

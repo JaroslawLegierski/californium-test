@@ -233,6 +233,15 @@ public class OptionJuggle {
 	}
 
 	/**
+	 * Sets the fake code in the coap header and returns the real code.
+	 *
+	 * @param response the response that receives its fake code.
+	 * @return response with fake code.
+	 */
+	public static Response setFakeCodeResponseUnauthorized(Response response) {
+		return responseWithNewCode(response, ResponseCode.UNAUTHORIZED);
+	}
+	/**
 	 * Sets the realCode for a response
 	 * 
 	 * @param response response
