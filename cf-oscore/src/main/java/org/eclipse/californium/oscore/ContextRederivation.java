@@ -346,7 +346,8 @@ public class ContextRederivation {
 			// Check if the received Context ID (ID1) matches the one in the
 			// context, if so do nothing. This means that this is a normal
 			// message and not meant to initiate context re-derivation.
-			if (contextID == null || Arrays.equals(contextID, ctx.getIdContext())) {
+			//Tests Annex B.2 with not null
+			if (contextID == null|| (Arrays.equals(contextID, ctx.getIdContext()))&&!ctx.getContextRederivationEnabled() ) {
 				return ctx;
 			}
 
